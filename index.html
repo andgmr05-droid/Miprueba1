@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Página Prueba - Inicio</title>
+  <meta name="description" content="Página de inicio de prueba con menú desplegable y paleta azul." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --blue-900:#0B1E3D;
+      --blue-800:#113261;
+      --blue-700:#184a8a;
+      --blue-600:#2463b3;
+      --blue-500:#2e7dd0;
+      --blue-400:#4fa1f0;
+      --blue-300:#8bc3fb;
+      --blue-100:#e9f4ff;
+      --white:#ffffff;
+      --slate-700:#1f2937;
+      --slate-600:#334155;
+      --slate-500:#64748b;
+      --radius:18px;
+      --shadow:0 10px 25px rgba(0,0,0,.12);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--slate-700);
+      background:linear-gradient(180deg, var(--blue-100), #fff 40%);
+    }
+
+    /* NAV */
+    .nav-wrap{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter:saturate(140%) blur(6px);
+      background:linear-gradient(180deg, rgba(11,30,61,.92), rgba(11,30,61,.75));
+      border-bottom:1px solid rgba(255,255,255,.1);
+    }
+    .container{max-width:1100px; margin:0 auto; padding:0 20px}
+
+    .nav{display:flex; align-items:center; justify-content:space-between; height:70px;}
+    .brand{display:flex; align-items:center; gap:12px; color:#fff; text-decoration:none; font-weight:800; letter-spacing:.3px}
+    .brand .logo{display:grid; place-items:center; width:38px; height:38px; border-radius:12px; background:linear-gradient(135deg,var(--blue-500),var(--blue-300)); box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
+    .brand span{font-size:1.05rem}
+
+    .menu{display:flex; align-items:center; gap:4px}
+    .menu > li{list-style:none; position:relative}
+    .menu a{display:block; padding:10px 14px; color:#e9f4ff; text-decoration:none; border-radius:10px; font-weight:600}
+    .menu a:hover{background:rgba(255,255,255,.08)}
+
+    /* Dropdown */
+    .dropdown-toggle{display:flex; align-items:center; gap:8px; cursor:pointer}
+    .chev{transition:transform .2s ease}
+    .dropdown[aria-expanded="true"] .chev{transform:rotate(180deg)}
+    .dropdown-panel{
+      position:absolute; top:110%; left:0; min-width:230px; padding:8px; border-radius:14px;
+      background:#fff; box-shadow:var(--shadow); border:1px solid #e6edf7; display:none;
+    }
+    .dropdown[aria-expanded="true"] .dropdown-panel{display:block}
+    .dropdown-panel a{color:var(--slate-700)}
+    .dropdown-panel a:hover{background:#f2f7ff}
+
+    /* CTA */
+    .btn{border:0; padding:10px 16px; border-radius:12px; font-weight:700; cursor:pointer}
+    .btn-primary{background:linear-gradient(135deg, var(--blue-600), var(--blue-400)); color:#fff; box-shadow:0 6px 18px rgba(36,99,179,.35)}
+    .btn-primary:hover{filter:brightness(1.05)}
+
+    /* Mobile menu */
+    .hamb{display:none; border:1px solid rgba(255,255,255,.25); background:transparent; color:#fff; width:42px; height:42px; border-radius:12px}
+    @media (max-width:860px){
+      .hamb{display:inline-grid; place-items:center}
+      .menu{display:none; position:absolute; top:70px; left:0; right:0; padding:10px; background:rgba(11,30,61,.98); border-bottom:1px solid rgba(255,255,255,.12)}
+      .menu.open{display:block}
+      .menu > li{margin:6px 0}
+      .dropdown-panel{position:relative; top:0; box-shadow:none; border:0; background:transparent; padding:0}
+      .dropdown-panel a{color:#e9f4ff}
+      .dropdown-panel a:hover{background:rgba(255,255,255,.08)}
+    }
+
+    /* HERO */
+    .hero{padding:88px 0 64px;}
+    .hero-inner{display:grid; grid-template-columns: 1.2fr 1fr; gap:32px; align-items:center}
+    .badge{display:inline-flex; align-items:center; gap:8px; background:#ecf5ff; color:var(--blue-700); font-weight:700; border-radius:100px; padding:8px 12px; box-shadow: inset 0 0 0 1px #cfe6ff}
+    .title{font-size:clamp(28px, 4vw, 46px); line-height:1.05; color:var(--blue-900); margin:14px 0}
+    .lead{font-size:1.08rem; color:#334155; max-width:52ch}
+    .hero-card{background:#fff; border-radius:var(--radius); padding:22px; box-shadow:var(--shadow); border:1px solid #e6edf7}
+
+    .stats{display:grid; grid-template-columns: repeat(3, 1fr); gap:18px; margin-top:18px}
+    .stat{background:#fff; border-radius:16px; padding:16px; text-align:center; border:1px solid #e6edf7}
+    .stat .num{font-weight:800; font-size:1.4rem; color:var(--blue-700)}
+
+    @media (max-width:860px){
+      .hero-inner{grid-template-columns:1fr}
+    }
+
+    /* FEATURES */
+    .section{padding:40px 0}
+    .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+    .card{background:#fff; border-radius:var(--radius); padding:20px; border:1px solid #e6edf7; box-shadow:var(--shadow)}
+    .card h3{margin:.4rem 0 .2rem 0; color:var(--blue-800)}
+    .card p{margin:.15rem 0 0 0; color:#475569}
+    @media (max-width:900px){.grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:600px){.grid{grid-template-columns:1fr}}
+
+    /* FOOTER */
+    footer{margin-top:60px; padding:24px 0; background:var(--blue-900); color:#bcd3ff}
+    .foot{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px}
+    .foot a{color:#d7e8ff; text-decoration:none}
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <div class="nav-wrap">
+    <div class="container">
+      <nav class="nav" aria-label="Barra de navegación principal">
+        <a class="brand" href="#">
+          <span class="logo" aria-hidden="true">💠</span>
+          <span>Prueba Azul</span>
+        </a>
+
+        <button class="hamb" id="hamb" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">☰</button>
+
+        <ul class="menu" id="menu">
+          <li><a href="#inicio">Inicio</a></li>
+          <li class="dropdown" id="dropdown" aria-expanded="false">
+            <a class="dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+              Servicios
+              <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </a>
+            <div class="dropdown-panel" role="menu" aria-label="Submenú de servicios">
+              <a href="#diseno" role="menuitem">Diseño Web</a>
+              <a href="#tienda" role="menuitem">Tienda en Línea</a>
+              <a href="#seo" role="menuitem">SEO y Analítica</a>
+            </div>
+          </li>
+          <li><a href="#precios">Precios</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+          <li><a href="#" class="btn btn-primary">Empezar</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header id="inicio" class="hero">
+    <div class="container hero-inner">
+      <div>
+        <span class="badge">Nuevo Prueba Dominio</span>
+          <h1 class="title">Inserte titulo ingenioso yo no tengo ninguno <span style="color:var(--blue-600)">página de prueba</span> aaaaaa</h1>
+        <p class="lead">Esto es una prueba nadamas</p>
+        <div style="display:flex; gap:10px; margin-top:16px">
+          <a class="btn btn-primary" href="#precios">Ver planes</a>
+          <a class="btn" style="background:#eef6ff; color:var(--blue-700); border:1px solid #d7e8ff" href="#contacto">Contáctanos</a>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="num">100%</div><div>Responsiva</div></div>
+          <div class="stat"><div class="num">A11y</div><div>Accesible</div></div>
+          <div class="stat"><div class="num">SEO</div><div>Listo</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="hero-card">
+          <img src="https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop" alt="Ilustración abstracta azul" style="width:100%; border-radius:16px">
+          <p style="margin:.6rem 0 0 0; color:#465a7a">Diseño inspirado por no se necesito llenar espacio</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- FEATURES -->
+  <section class="section">
+    <div class="container">
+      <div class="grid">
+        <article class="card" id="diseno">
+          <h3>Diseño Web</h3>
+          <p>AAAAAAAAA</p>
+        </article>
+        <article class="card" id="tienda">
+          <h3>Tienda en Línea</h3>
+            <p>bBBBBBBBBBBBBBBBBBB</p>
+        </article>
+        <article class="card" id="seo">
+          <h3>SEO y Analítica</h3>
+          <p>CCCCCCCCCCCCCCC</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING (simple) -->
+  <section id="precios" class="section" style="padding-top:0">
+    <div class="container">
+      <div class="grid">
+        <div class="card">
+          <h3>Básico</h3>
+          <p>Ideal para pruebas.</p>
+          <p><strong>$9</strong> / mes</p>
+          <button class="btn btn-primary">Elegir</button>
+        </div>
+        <div class="card" style="outline:2px solid var(--blue-300)">
+          <h3>Pro</h3>
+          <p>Lo esencial para lanzar.</p>
+          <p><strong>$19</strong> / mes</p>
+          <button class="btn btn-primary">Elegir</button>
+        </div>
+        <div class="card">
+          <h3>Empresa</h3>
+          <p>Escala sin límites.</p>
+          <p><strong>$49</strong> / mes</p>
+          <button class="btn btn-primary">Elegir</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contacto" class="section">
+    <div class="container">
+      <div class="card">
+        <h3>Contacto</h3>
+        <p>¿Tienes dudas? Escríbenos y te responderemos.</p>
+        <form onsubmit="event.preventDefault(); alert('¡Mensaje enviado!');">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
+            <input required placeholder="Nombre" style="padding:12px 14px; border:1px solid #d7e8ff; border-radius:12px" />
+            <input type="email" required placeholder="Correo" style="padding:12px 14px; border:1px solid #d7e8ff; border-radius:12px" />
+          </div>
+          <textarea required placeholder="Mensaje" rows="4" style="margin-top:12px; width:100%; padding:12px 14px; border:1px solid #d7e8ff; border-radius:12px"></textarea>
+          <div style="margin-top:10px"><button class="btn btn-primary">Enviar</button></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container foot">
+      <div>© <span id="year"></span> Prueba Azul</div>
+      <div style="opacity:.85">Hecho con ♡ en tonos azules</div>
+    </div>
+  </footer>
+
+  <script>
+    // Año dinámico
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Menú hamburguesa (móvil)
+    const hamb = document.getElementById('hamb');
+    const menu = document.getElementById('menu');
+    hamb.addEventListener('click', () => {
+      const isOpen = menu.classList.toggle('open');
+      hamb.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    // Dropdown accesible
+    const dropdown = document.getElementById('dropdown');
+    const toggle = dropdown.querySelector('.dropdown-toggle');
+    const panel = dropdown.querySelector('.dropdown-panel');
+
+    function openDrop(){ dropdown.setAttribute('aria-expanded','true'); toggle.setAttribute('aria-expanded','true'); }
+    function closeDrop(){ dropdown.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-expanded','false'); }
+
+    toggle.addEventListener('click', (e)=>{ e.preventDefault();
+      const expanded = dropdown.getAttribute('aria-expanded') === 'true';
+      expanded ? closeDrop() : openDrop();
+    });
+
+    // Cerrar dropdown al hacer click fuera
+    document.addEventListener('click', (e)=>{
+      if(!dropdown.contains(e.target)) closeDrop();
+    });
+
+    // Teclado: abrir con Enter/Espacio
+    toggle.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); const ex = dropdown.getAttribute('aria-expanded')==='true'; ex?closeDrop():openDrop(); }
+      if(e.key === 'Escape'){ closeDrop(); toggle.focus(); }
+    });
+  </script>
+</body>
+</html>
